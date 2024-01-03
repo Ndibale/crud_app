@@ -1,0 +1,10 @@
+20230920	17:12:42	1dd0a7fe-3974-46cf-9ccf-6ae841d8cc48	TypeError: allowedOrigins.indexOf is not a function	GET	/css/style.css	undefined
+20230920	17:12:59	716171a0-c351-472f-9ff1-0dd0224d930b	TypeError: allowedOrigins.indexOf is not a function	GET	/	undefined
+20230923	21:00:10	006c9b97-b670-4b93-b19a-d35ef17143ff	SyntaxError: Unexpected token J in JSON at position 13	POST	/users	undefined
+20230923	23:54:36	620e4aaa-9edc-4dd9-9e0c-a30dc65c03b3	ReferenceError: id is not defined	DELETE	/users	undefined
+20230924	15:43:19	ea7f55fb-5048-4118-b0e2-65d8764bfb98	SyntaxError: Unexpected string in JSON at position 94	POST	/notes	undefined
+20231029	21:56:38	4129e95f-9707-4762-9d3d-0a48b7793d13	Error: Not allowed by CORS	GET	/users	http://localhost:3000
+20231029	22:02:48	bf147bf4-85b2-4f8b-8722-f4c8edf53c5b	Error: Not allowed by CORS	GET	/users	http://localhost:3000
+20231029	22:04:03	e15bc628-b79b-4fa4-8617-692d4c07b82d	Error: Not allowed by CORS	GET	/users	http://localhost:3000
+20231029	22:07:48	15b50fdb-aff7-4f3b-a2f8-d6fc39121d58	Error: Not allowed by CORS	GET	/users	http://localhost:3000
+20231029	22:08:59	3beccc3d-1323-4fa6-b554-4c1ad40a44fd	Error: Not allowed by CORS	GET	/users	http://localhost:3000
