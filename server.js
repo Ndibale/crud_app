@@ -26,8 +26,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 
-// app.use('/', express.static(path.join(__dirname,'..','front_end', 'public')))
-app.use('/', express.static(path.join(__dirname, 'public')))
+app.use('/', express.static(path.join(__dirname,'front_end', 'public')))
+// app.use('/', express.static(path.join(__dirname, 'public')))
 
 app.use('/', require('./routes/root'));
 app.use('/auth', require('./routes/authRoutes'))

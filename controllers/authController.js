@@ -1,83 +1,105 @@
 const User =require('../models/UserDetails');
 const bcrypt = require('bcrypt');
 const jwt= require('jsonwebtoken')
-const asyncHandler = require('express-async-handler')
+const asyncHandler = require('express-async-handler');
+require('dotenv').config();
 
 
 const login = asyncHandler(async (req,res)=>{
     const { username, password } = req.body;
 
-    if(!username || !password) return res.status(400).json({message:"All fields are required"})
+    if(!username || !password) return res.status(400).json({message:"All fields are required"});
 
-})
+    const foundUser = await User.findOne({username}).exec();
+
+    if(!foundUser || !foundUser.active) return res.status(401).json({message:"Unauthorized"});
+
+    const match = await bcrypt.compare(password, foundUser.password);
+
+    if(!match) return res.status(401).json({message:"Unauthorized"});
 
 
-const refresh = asyncHandler(async (req,res)=>{
-    const { person, title, text } = req.body;
-   
 
-    if(!person || !title|| !text ){
-        return res.status(400).json({message: 'All fields are required'})
+
+const accessToken = jwt.sign({
+    "UserInfo": {
+        "username ":foundUser.username,
+        "roles": foundUser.roles
     }
+},
+    process.env.ACCESS_TOKEN_SECRET, {expiresIn: "2m"}
+
+)
 
 
-    const duplicate = await Note.findOne({person}).lean().exec();
 
-    if(duplicate) return res.status(409).json({message:"Duplicate person"})
+const refreshToken = jwt.sign({
+    "username": { "username ":foundUser.username }
+},
+    process.env.REFRESH_TOKEN_SECRET , {expiresIn: "1d"}
 
-    try {
-        const noteObject = {person, title, text}
-        console.log(noteObject)
-        
-        // Creating a new Note 
-        const note = await Note.create(noteObject);
-    } catch (error) {
-        console.log(error.message);
-    }
+);
 
+res.cookie('jwt', refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+    maxAge: 7*60*60*1000
+});
 
-    if(note){
-        res.status(201).json({message:`New Note called ${person} has made a post`})
-    }else{
-        res.status(400).json({message:"invalid Note data has been received"})
-    }
-})
+// Send a token containing username and role
+res.json({accessToken})
+
+});
 
 
-const logout = asyncHandler(async (req,res)=>{
-    const {id, person, title, text, roles}= req.body;
+const refresh = (req, res)=>{
+    const cookies = req. cookies
 
-    if(!id || !person || !title || !text || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean'){
-        return res.status(400).json({message:"All fields are required!"})
-    }
+    if(!cookies?.jwt) return res.status(401).json({message:"Unauthorized"});
 
-    const note = await Note.findById(id).exec();
+    const refreshToken = cookies.jwt
 
-    if(!note) return res.status(400).json({message:"Note is not found"})
+    jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET,
+        asyncHandler(async(err, decoded)=>{
+            if(err) return res.status(403).json({message:" Forbidden"});
 
-    const duplicate = await Note.findOne({person}).lean().exec();
+            const foundUser = await User.findOne({username: decoded.username});
 
-    if(duplicate && duplicate?._id.toString() !== id ){
-        return res.status(409).json({message:"Duplicate person!"})
-    }
+            if(!foundUser) return res.status(401).json({message: "Unauthorized"});
 
-        note.person = person
-        note.roles = roles
-        note.title = title
-        note.text = text
-    
+            const accessToken = jwt.sign({
+                "userInfo":{
+                    "username ":foundUser.username,
+                    "roles": foundUser.roles
+                }
+            },
+            process.env.ACCESS_TOKEN_SECRET, {expiresIn: "2m"}
+            )
 
-        const updatedNote = await note.save();
+            res.json({accessToken});
+        })
+    )
+}
 
-        res.json({message:`${updatedNote.person} updated` })
-})
 
 
+
+const logout = (req, res)=>{
+    const cookies = req. cookies
+
+    if(!cookies?.jwt) return res.sendStatus(204);
+    res.clearCookie('jwt', {httpOnly: true, sameSite: 'None', secure: true})
+
+    res.json({message:" Cookie cleared"})
+}
 
 
 
 module.exports = {
    login,
-    refresh,
+   refresh,
    logout
 }
