@@ -4,9 +4,9 @@
   "description": "mern_fullstack_app",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "server": "nodemon server",
-    "front_end": "npm start --prefix front_end",
+    "start": "node ../server",
+    "server": "nodemon ../server",
+    "front_end": "npm start --prefix ../front_end",
     "dev": "concurrently \"npm run server\" \" npm run front_end\""
   },
   "keywords": [],
