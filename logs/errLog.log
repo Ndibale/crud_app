@@ -103,3 +103,5 @@
 20240103	17:57:55	547a26d6-1364-4ca4-a09d-da7ba29d95a2	TypeError: Cannot read properties of undefined (reading 'split')	GET	/users	http://localhost:3000
 20240103	17:58:03	16d28b84-9935-4102-a888-c53eef72cc02	TypeError: Cannot read properties of undefined (reading 'split')	GET	/notes	http://localhost:3000
 20240106	23:13:49	c87202d1-1612-4a73-8140-1d1302e22075	Too many Requests: Too many login attemps from this IP, please try again after 1 min pause	POST	/	http://localhost:3000
+20240608	22:39:38	025cb3c3-f2d4-44b5-b83e-1eef7abdb5ea	Too many Requests: Too many login attemps from this IP, please try again after 1 min pause	POST	/	http://localhost:3000
+20240608	22:39:38	5a812067-ef71-47a1-88be-7c093ec58eed	Too many Requests: Too many login attemps from this IP, please try again after 1 min pause	POST	/	http://localhost:3000
