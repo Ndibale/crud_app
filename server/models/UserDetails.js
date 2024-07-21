@@ -9,17 +9,19 @@ const userSchema = new mongoose.Schema({
         type:String,
         required: true
     },
+    email:{
+        type:String,
+        required: true
+    },
     roles:[{
         type:String,
         default: "Employee"
     }],
         createdAt:{
             type:String,
-            required:true
         },
         updatedAt:{
             type:String,
-            required:true
         },
     active:{
         type:Boolean,

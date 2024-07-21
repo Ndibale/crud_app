@@ -105,3 +105,9 @@
 20240106	23:13:49	c87202d1-1612-4a73-8140-1d1302e22075	Too many Requests: Too many login attemps from this IP, please try again after 1 min pause	POST	/	http://localhost:3000
 20240608	22:39:38	025cb3c3-f2d4-44b5-b83e-1eef7abdb5ea	Too many Requests: Too many login attemps from this IP, please try again after 1 min pause	POST	/	http://localhost:3000
 20240608	22:39:38	5a812067-ef71-47a1-88be-7c093ec58eed	Too many Requests: Too many login attemps from this IP, please try again after 1 min pause	POST	/	http://localhost:3000
+20240721	10:20:19	4d3a738a-3ba1-49bc-8f78-6a6139e385c1	SyntaxError: Unexpected token M in JSON at position 19	POST	/users	undefined
+20240721	10:21:37	d3af1c16-26e2-437b-8ade-5a17b94047a8	SyntaxError: Unexpected token M in JSON at position 19	POST	/users	undefined
+20240721	10:28:10	dc0e27f7-2a97-4fe6-a163-54ecdecfeb37	ValidationError: User validation failed: updatedAt: Path `updatedAt` is required., createdAt: Path `createdAt` is required.	POST	/users	undefined
+20240721	10:32:47	a408608c-9007-4263-8398-a47424e73adc	ValidationError: User validation failed: updatedAt: Path `updatedAt` is required., createdAt: Path `createdAt` is required.	POST	/users/create	undefined
+20240721	10:35:04	e2b230f0-8932-49af-b77f-fe1f71fac8c9	ValidationError: User validation failed: updatedAt: Path `updatedAt` is required., createdAt: Path `createdAt` is required.	POST	/users/create	undefined
+20240721	10:46:55	0f545bff-440c-4497-a18c-d75ad6648b5f	Error: Cannot set headers after they are sent to the client	POST	/users/create	undefined

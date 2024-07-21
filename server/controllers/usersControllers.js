@@ -13,32 +13,38 @@ const getAllUsers = asyncHandler(async (req,res)=>{
 })
 
 
-const createNewUser = asyncHandler(async (req,res)=>{
-    const { username, password, roles } = req.body;
+const createNewUser = asyncHandler(async (req, res) => {
+    const { username, email, password, ConfirmPassword, roles } = req.body;
 
-    if(!username || !password || !Array.isArray(roles) || !roles.length){
-        return res.status(400).json({message: 'All fields are required'})
+    if (!username || !password || !email) {
+        return res.status(400).json({ message: 'All fields are required' });
     }
 
+    const duplicate = await User.findOne({ email }).lean().exec();
 
-    const duplicate = await User.findOne({username}).lean().exec();
+    if (duplicate) return res.status(409).json({ message: "Duplicate user" });
 
-    if(duplicate) return res.status(409).json({message:"Duplicate user"})
+    if (ConfirmPassword !== password) {
+        return res.status(400).json({ message: "Invalid user password" }); // Change status to 400
+    }
 
-    // hashing password
+    // Hashing password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const userObject = {username, "password":hashedPassword, roles}
+    const userObject = { username, email, "password": hashedPassword, roles };
 
     // Creating a new user 
     const user = await User.create(userObject);
 
-    if(user){
-        res.status(201).json({message:`New user called ${username} has been created`})
-    }else{
-        res.status(400).json({message:"invalid user data has been received"})
+    if (user) {
+        return res.status(201).json({ message: `New user called ${username} has been created` });
+    } else {
+        return res.status(400).json({ message: "Invalid user data has been received" });
     }
-})
+});
+
+
+
 
 
 const updateUser = asyncHandler(async (req,res)=>{
